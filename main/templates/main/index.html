@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h4>ULTIMATE UPLOAD MULTIPLE ROTATE IMAGES BOX</h4>
+<br><br>
+<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
+    {% csrf_token %}
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+<br><br>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div style="display: flex">
+        <div style="margin-right: 30px">
+            <span style="color: black">Rotate +90°</span>
+            <input type="checkbox" name="turn_left_90" value="True"><br><br>
+            <button onclick="table()" style="border-radius: 5px;">Get Photos</button>
+        </div>
+        <div style="margin-right: 30px">
+            <span style="color: black">Rotate -90°</span>
+            <input type="checkbox" name="turn_right_90" value="True"><br><br>
+            <a href="{% url 'index' %}">Clean DropBox</a>
+        </div>
+        <div style="margin-right: 30px">
+            <span style="color: black">Delete All Photos</span>
+            <input type="checkbox" name="delete_all" value="True"><br><br>
+        </div>
+    </div>
+</form>
+<br>
+<h4>My Photos</h4>
+{% for photo in photos %}
+    <br>
+    <img src="{{photo.photo_input.url}}" alt="" style="width: 150px;">
+    <span style="margin-left: 30px"><a href="{{photo.photo_input.url}}" download="" style="color: green"> ==> Download <== </a></span>
+    <a href="{% url 'photo_delete' photo.id %}" style="margin-left: 50px; color: red">REMOVE</a>
+{% endfor %}
+
+<p id="display"></p>
+
+{% endblock %}
